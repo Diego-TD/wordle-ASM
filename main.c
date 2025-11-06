@@ -28,10 +28,10 @@ int randomNumber(int size) {
 
 char *randomWord() {
     static char *words[20] = {
-        "CRANE", "SHINE", "PLANT", "BRAVE", "STONE",
-        "FLASH", "POINT", "GRAPE", "CLEAN", "STORM",
-        "TRACK", "CHEST", "HEART", "SMILE", "DRINK",
-        "CLOUD", "SWEET", "FRAME", "TIGER", "BRAIN"
+        "QUIRK", "VEXED", "JAZZY", "NYMPH", "WHARF",
+        "PIXEL", "ZESTY", "BLITZ", "CRYPT", "KNACK",
+        "FJORD", "GUILT", "OZONE", "LYNCH", "TWIRL",
+        "WOVEN", "MIRTH", "VAPID", "QUILT", "ZONAL"
     };
 
     int total = sizeof(words) / sizeof(words[0]);
