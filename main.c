@@ -5,12 +5,23 @@
 // Declaraciones de funciones
 char *randomWord();
 int randomNumber(int size);
+int *mapWord(char *word);
 
 int main(void) {
     srand(time(NULL));  // inicializar random una sola vez
 
+    //Random Word
     char *guessingWord = randomWord();
     printf("Palabra aleatoria: %s\n", guessingWord);
+
+    //Map that word
+    int *mappedSystemWord = mapWord(guessingWord);
+    for (int i = 0; i < 26; i++) {
+        printf("%c: %d\n", i + 'A', mappedSystemWord[i]);
+    }
+    free(mappedSystemWord);
+
+    // Make logic for user attempts
 
     return 0;
 }
@@ -34,4 +45,14 @@ char *randomWord() {
     return words[randIdx];
 }
 
+int *mapWord(char *word) {
+    int *mappedWord = calloc(26, sizeof(int));
+
+    for (int i = 0; i < 5; i++) {
+        int idx = word[i] - 'A';
+        mappedWord[idx]++;
+    }
+
+    return mappedWord;
+}
 
