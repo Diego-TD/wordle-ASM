@@ -24,16 +24,10 @@ int main(void) {
 
     // Make logic for user attempts
 
-    char word[5] = {'W', 'A', 'Z', 'A', 'A'};
-    char guess[5] = {'A', 'A', 'A', 'A', 'A'};
+    char word[5] = {'R', 'A', 'M', 'I', 'C'};
+    char guess[5] = {'R', 'A', 'I', 'P', 'L'};
     for (int i = 0; i < 5; i++){
-        printf("%c ", word[i]);
-    }
-
-    printf("\n");
-
-    for (int i = 0; i < 5; i++){
-        printf("%c ", guess[i]);
+        printf(" %c ", word[i]);
     }
 
     printf("\n");
@@ -99,6 +93,14 @@ void guessCheck(char *guess, char *word){
 
     //showing 
     for (int i = 0; i < 5; i++){
-        printf("%d ", result[i]);
+        if (result[i] == 2){
+            printf("\033[42m %c \033[0m", guess[i]);
+        }
+        else if (result[i] == 1){
+            printf("\033[43m %c \033[0m", guess[i]);
+        }
+        else {
+            printf("\033[47m %c \033[0m", guess[i]);
+        }
     }
 }
