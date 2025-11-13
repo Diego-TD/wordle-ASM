@@ -2,13 +2,21 @@
 #include <stdlib.h>
 #include <time.h>
 
+extern char* randomWord();
+extern int* mapWord(char* word);
+extern int guessCheck(char* guess, char* word);
+
 // Declaraciones de funciones
+
+/*
 char *randomWord();
 int randomNumber(int size);
 int *mapWord(char *word);
 void guessCheck(char *guess, char *word);
+*/
 
 int main(void) {
+    /*
     srand(time(NULL));  // inicializar random una sola vez
 
     //Random Word
@@ -32,11 +40,38 @@ int main(void) {
 
     printf("\n");
     guessCheck(guess, word);
+    */
 
+    srand(time(NULL));
+    char *word = randomWord();
+    
+    int tries = 6;
+    char guess[6];
+    int correct = 0;
+
+    printf("- - - Welcome to Wordle - - -\n");
+    printf("Insert a 5 letter word:\n");
+    while (tries-- && !correct){
+        //printf("Number of tries: %d\n", tries + 1);
+        scanf("%5s", guess);
+        for (int i = 0; i < 5; i++){
+            if (guess[i] >= 'a' && guess[i] <= 'z'){
+                guess[i] -= 32;
+            }
+            else if (guess[i] < 'A' || guess[i] > 'Z'){
+                printf("Your input contains an invalid character (Only letters)");
+                tries++;
+                break;
+            }
+        }
+        correct = guessCheck(guess, word);
+        printf("\n");
+    }
+    printf("The word was: %s\n", word);
     return 0;
 }
 
-
+/*
 int randomNumber(int size) {
     return rand() % size;
 }
@@ -70,7 +105,7 @@ void guessCheck(char *guess, char *word){
     int *mapped = mapWord(word), result[5];
 
     //green
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
         if (guess[i] == word[i]) {
             result[i] = 2;   
             mapped[guess[i] - 'A']--;
@@ -104,3 +139,4 @@ void guessCheck(char *guess, char *word){
         }
     }
 }
+*/

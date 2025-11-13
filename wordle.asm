@@ -1,79 +1,83 @@
 .intel_syntax noprefix
 .text
-.globl main
-.type main, @function
+.globl randomWord
+.globl mapWord
+.globl guessCheck
+
+# .globl main
+# .type main, @function
 
 
-main:
-        push    rbp
-        mov     rbp, rsp
-        sub     rsp, 48
-        mov     dword ptr [rbp - 4], 0
-        xor     eax, eax
-        mov     edi, eax
-        call    time@PLT
-        mov     edi, eax
-        call    srand@PLT
-        call    randomWord
-        mov     qword ptr [rbp - 16], rax
-        mov     rsi, qword ptr [rbp - 16]
-        lea     rdi, [rip + .L.str]
-        mov     al, 0
-        call    printf@PLT
-        mov     rdi, qword ptr [rbp - 16]
-        call    mapWord
-        mov     qword ptr [rbp - 24], rax
-        mov     dword ptr [rbp - 28], 0
-.LBB0_1:
-        cmp     dword ptr [rbp - 28], 26
-        jge     .LBB0_4
-        mov     esi, dword ptr [rbp - 28]
-        add     esi, 65
-        mov     rax, qword ptr [rbp - 24]
-        movsxd  rcx, dword ptr [rbp - 28]
-        mov     edx, dword ptr [rax + 4*rcx]
-        lea     rdi, [rip + .L.str.1]
-        mov     al, 0
-        call    printf@PLT
-        mov     eax, dword ptr [rbp - 28]
-        add     eax, 1
-        mov     dword ptr [rbp - 28], eax
-        jmp     .LBB0_1
-.LBB0_4:
-        mov     rdi, qword ptr [rbp - 24]
-        call    free@PLT
-        mov     eax, dword ptr [rip + .L__const.main.word]
-        mov     dword ptr [rbp - 33], eax
-        mov     al, byte ptr [rip + .L__const.main.word+4]
-        mov     byte ptr [rbp - 29], al
-        mov     eax, dword ptr [rip + .L__const.main.guess]
-        mov     dword ptr [rbp - 38], eax
-        mov     al, byte ptr [rip + .L__const.main.guess+4]
-        mov     byte ptr [rbp - 34], al
-        mov     dword ptr [rbp - 44], 0
-.LBB0_5:
-        cmp     dword ptr [rbp - 44], 5
-        jge     .LBB0_8
-        movsxd  rax, dword ptr [rbp - 44]
-        movsx   esi, byte ptr [rbp + rax - 33]
-        lea     rdi, [rip + .L.str.2]
-        mov     al, 0
-        call    printf@PLT
-        mov     eax, dword ptr [rbp - 44]
-        add     eax, 1
-        mov     dword ptr [rbp - 44], eax
-        jmp     .LBB0_5
-.LBB0_8:
-        lea     rdi, [rip + .L.str.3]
-        mov     al, 0
-        call    printf@PLT
-        lea     rdi, [rbp - 38]
-        lea     rsi, [rbp - 33]
-        call    guessCheck
-        xor     eax, eax
-        add     rsp, 48
-        pop     rbp
-        ret
+# main:
+#        push    rbp
+#        mov     rbp, rsp
+#        sub     rsp, 48
+#        mov     dword ptr [rbp - 4], 0
+#        xor     eax, eax
+#        mov     edi, eax
+#        call    time@PLT
+#        mov     edi, eax
+#        call    srand@PLT
+#        call    randomWord
+#       mov     qword ptr [rbp - 16], rax
+#        mov     rsi, qword ptr [rbp - 16]
+#        lea     rdi, [rip + .L.str]
+#        mov     al, 0
+#        call    printf@PLT
+#        mov     rdi, qword ptr [rbp - 16]
+#        call    mapWord
+#        mov     qword ptr [rbp - 24], rax
+#        mov     dword ptr [rbp - 28], 0
+# .LBB0_1:
+#        cmp     dword ptr [rbp - 28], 26
+#        jge     .LBB0_4
+#        mov     esi, dword ptr [rbp - 28]
+#        add     esi, 65
+#        mov     rax, qword ptr [rbp - 24]
+#        movsxd  rcx, dword ptr [rbp - 28]
+#        mov     edx, dword ptr [rax + 4*rcx]
+#        lea     rdi, [rip + .L.str.1]
+#        mov     al, 0
+#        call    printf@PLT
+#        mov     eax, dword ptr [rbp - 28]
+#        add     eax, 1
+#        mov     dword ptr [rbp - 28], eax
+#        jmp     .LBB0_1
+# .LBB0_4:
+#        mov     rdi, qword ptr [rbp - 24]
+#        call    free@PLT
+#        mov     eax, dword ptr [rip + .L__const.main.word]
+#        mov     dword ptr [rbp - 33], eax
+#        mov     al, byte ptr [rip + .L__const.main.word+4]
+#        mov     byte ptr [rbp - 29], al
+#        mov     eax, dword ptr [rip + .L__const.main.guess]
+#        mov     dword ptr [rbp - 38], eax
+#        mov     al, byte ptr [rip + .L__const.main.guess+4]
+#        mov     byte ptr [rbp - 34], al
+#        mov     dword ptr [rbp - 44], 0
+# .LBB0_5:
+#        cmp     dword ptr [rbp - 44], 5
+#        jge     .LBB0_8
+#        movsxd  rax, dword ptr [rbp - 44]
+#        movsx   esi, byte ptr [rbp + rax - 33]
+#        lea     rdi, [rip + .L.str.2]
+#        mov     al, 0
+#        call    printf@PLT
+#        mov     eax, dword ptr [rbp - 44]
+#        add     eax, 1
+#        mov     dword ptr [rbp - 44], eax
+#        jmp     .LBB0_5
+# .LBB0_8:
+#        lea     rdi, [rip + .L.str.3]
+#        mov     al, 0
+#        call    printf@PLT
+#        lea     rdi, [rbp - 38]
+#        lea     rsi, [rbp - 33]
+#        call    guessCheck
+#        xor     eax, eax
+#        add     rsp, 48
+#        pop     rbp
+#        ret
 
 mapWord:
         push    rbp
@@ -227,9 +231,30 @@ guessCheck:
         mov     dword ptr [rbp - 64], eax
         jmp     .LBB2_16
 .LBB2_25:
+        mov     dword ptr [rbp - 68], 1          
+        mov     dword ptr [rbp - 72], 0          
+.LCHECK_LOOP:
+        cmp     dword ptr [rbp - 72], 5
+        jge     .LCHECK_END
+        movsxd  rax, dword ptr [rbp - 72]
+        cmp     dword ptr [rbp + 4*rax - 48], 2  
+        je      .LCHECK_NEXT
+        mov     dword ptr [rbp - 68], 0          
+.LCHECK_NEXT:
+        mov     eax, dword ptr [rbp - 72]
+        add     eax, 1
+        mov     dword ptr [rbp - 72], eax
+        jmp     .LCHECK_LOOP
+.LCHECK_END:
+        mov     eax, dword ptr [rbp - 68]        
         add     rsp, 64
         pop     rbp
         ret
+
+# .LBB2_25:
+#        add     rsp, 64
+#        pop     rbp
+#        ret
 
 randomNumber:
         push    rbp
@@ -259,23 +284,23 @@ randomWord:
         pop     rbp
         ret
 
-.L.str:
-        .asciz  "Palabra aleatoria: %s\n"
-
-.L.str.1:
-        .asciz  "%c: %d\n"
-
-.L__const.main.word:
-        .ascii  "RAMIC"
-
-.L__const.main.guess:
-        .ascii  "ADFADFAD"
-
-.L.str.2:
-        .asciz  " %c "
-
-.L.str.3:
-        .asciz  "\n"
+# .L.str:
+#        .asciz  "Palabra aleatoria: %s\n"
+#
+# .L.str.1:
+#        .asciz  "%c: %d\n"
+#
+# .L__const.main.word:
+#        .ascii  "RAMIC"
+#
+# .L__const.main.guess:
+#        .ascii  "ADFADFAD"
+#
+# .L.str.2:
+#        .asciz  " %c "
+#
+# .L.str.3:
+#        .asciz  "\n"
 
 randomWord.words:
         .quad   .L.str.4
