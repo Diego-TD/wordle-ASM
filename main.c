@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 extern char* randomWord();
 extern int* mapWord(char* word);
@@ -42,32 +43,67 @@ int main(void) {
     guessCheck(guess, word);
     */
 
-    srand(time(NULL));
-    char *word = randomWord();
-    
-    int tries = 6;
-    char guess[6];
-    int correct = 0;
-
+    srand(time(NULL));    
     printf("- - - Welcome to Wordle - - -\n");
-    printf("Insert a 5 letter word:\n");
-    while (tries-- && !correct){
-        //printf("Number of tries: %d\n", tries + 1);
-        scanf("%5s", guess);
-        for (int i = 0; i < 5; i++){
-            if (guess[i] >= 'a' && guess[i] <= 'z'){
-                guess[i] -= 32;
-            }
-            else if (guess[i] < 'A' || guess[i] > 'Z'){
-                printf("Your input contains an invalid character (Only letters)");
-                tries++;
+
+    while (1) {
+        char *word = randomWord();
+        int tries = 6;
+        char guess[50];
+        int correct = 0;
+        char option;
+
+        printf("\n New word selected!\n");
+
+        while (tries > 0 && !correct) {
+
+            while (1) {
+                printf(" Insert a 5 letter word (%d tries left): ", tries);
+                scanf("%s", guess);
+
+                if (strlen(guess) != 5) {
+                    printf(" The word must have EXACTLY 5 letters.\n");
+                    continue;
+                }
+
+                int valid = 1;
+                for (int i = 0; i < 5; i++) {
+                    char c = guess[i];
+
+                    if (c >= 'a' && c <= 'z') {
+                        guess[i] -= 32; 
+                    }
+                    else if (c < 'A' || c > 'Z') {
+                        printf(" Invalid character. Only letters allowed.\n");
+                        valid = 0;
+                        break;
+                    }
+                }
+
+                if (!valid) continue;  
                 break;
             }
+
+            correct = guessCheck(guess, word);
+            tries--;
+
+            if (correct) {
+                printf(" You guessed it! The word was: %s\n", word);
+            }
         }
-        correct = guessCheck(guess, word);
-        printf("\n");
+
+        if (!correct)
+            printf(" You lose! The word was: %s\n", word);
+
+        printf(" Do you want to keep playing? (y/n): ");
+        scanf(" %c", &option);
+
+        if (option != 'y' && option != 'Y') {
+            printf(" Thanks for playing!\n");
+            break;
+        }
     }
-    printf("The word was: %s\n", word);
+
     return 0;
 }
 

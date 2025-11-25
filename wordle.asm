@@ -116,6 +116,13 @@ guessCheck:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 64
+
+        mov     dword ptr [rbp - 48], 0
+        mov     dword ptr [rbp - 44], 0
+        mov     dword ptr [rbp - 40], 0
+        mov     dword ptr [rbp - 36], 0
+        mov     dword ptr [rbp - 32], 0
+
         mov     qword ptr [rbp - 8], rdi
         mov     qword ptr [rbp - 16], rsi
         mov     rdi, qword ptr [rbp - 16]
@@ -392,3 +399,4 @@ randomWord.words:
 
 .L.str.26:
         .asciz  "\033[47m %c \033[0m"
+        
